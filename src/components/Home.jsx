@@ -1,14 +1,25 @@
+import React from "react"
+import "./Home.css"
+
+const  Home =()=>{
 
 
-const Home =()=>{
-    return(
+    return( 
 
-
-        <><h1> Home </h1></>
-    )
+    <div className="home-page">
+  <header>
 
 
     
+        <h2>Välkommen till Chat-app.netlify.app</h2>
+                    
+        <p>En hemsida som byggd med React och hostad på Netlify.</p>
+
+
+      </header>
+
+    </div>
+       )
 }
 
 export default Home

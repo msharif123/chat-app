@@ -1,0 +1,104 @@
+/* ===== Grundläggande Reset & Styling ===== */
+.home-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ===== Header ===== */
+.home-page header {
+  text-align: center;
+  padding: 3rem 0;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 2rem;
+}
+
+.home-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.home-page header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* ===== Main Content ===== */
+.home-page main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.home-page section {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.home-page h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+/* ===== Länkar & Knappar ===== */
+.home-page .button {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: #6e8efb;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-top: 1rem;
+  transition: background 0.3s;
+}
+
+.home-page .button:hover {
+  background: #5a7af0;
+}
+
+.home-page ul {
+  list-style: none;
+  padding: 0;
+}
+
+.home-page li {
+  margin-bottom: 0.5rem;
+}
+
+.home-page li a {
+  color: #6e8efb;
+  text-decoration: none;
+}
+
+.home-page li a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Footer ===== */
+.home-page footer {
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: 3rem;
+  border-top: 1px solid #eee;
+  color: #777;
+}
+
+/* ===== Responsiv Design (Mobil) ===== */
+@media (max-width: 768px) {
+  .home-page header {
+    padding: 2rem 0;
+  }
+
+  .home-page h1 {
+    font-size: 2rem;
+  }
+}
