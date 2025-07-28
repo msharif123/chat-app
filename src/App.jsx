@@ -1,15 +1,17 @@
 import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
+import Home from "./components/Home"
 import Navbar from "./components/Navbar"
 import Chat from "./components/Chat"
-import Home from "./components/Home"
 import Register from "./components/Register"
 import Footer from "./components/Footer"
 import Login from "./components/Login"
 import Logout from "./components/Logout"
 
-import ProtectedRotue from "./components/ProtectedRoute"
+import ProtectedRoute from "./components/ProtectedRoute"
+import MessageList from "./components/MessageList"
+import MessageForm from "./components/MessageForm"
 
 
 
@@ -22,19 +24,24 @@ const App=()=> {
 
 <BrowserRouter> 
     <Navbar/>
+    <Footer />
      
 
 
        <Routes>
+        <Route path="/home" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
+        
+        
     
-        <Route path="/home" element={<Home />} />
+        
 
 
-        <Route element = {<ProtectedRotue/>} >
+        <Route element = {<ProtectedRoute/>} >
         <Route path="chat" element = {<Chat/>} />
+      
       
        </Route>
         </Routes>

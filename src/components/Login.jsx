@@ -1,66 +1,75 @@
-import React, { useState } from 'react';
- import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import styles from './Login.module.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  //  const navigate = useNavigate();
+  const [csrfToken, setCsrfToken] = useState('02628e62-a2a7-4984-828b-1b024f5c0104');
+  const navigate = useNavigate();
 
-  const csrfToken = '9cb57219-8ae0-4513-b5aa-053736cecc21';
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      try {
+        const response = await fetch('https://chatify-api.up.railway.app/auth/csrf-token', {
+          credentials: 'include' // Required for cookies
+        });
+        const data = await response.json();
+        setCsrfToken(data.csrfToken);
+        console.log("CSRF Token fetched:", data.csrfToken); // Debug
+      } catch (err) {
+        console.error('CSRF Token error:', err);
+      }
+    };
+    fetchCsrfToken();
+  }, []);
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+
     if (!username || !password) {
       setError('Username and password are required');
       return;
     }
 
     try {
-      const res = await fetch('', {
+      console.log("Sending:", { username, password, csrfToken }); // Debug
+      const response = await fetch('https://chatify-api.up.railway.app/auth/token', {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': '*/*'
-        },
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Required for cookies
         body: JSON.stringify({ username, password, csrfToken })
       });
 
-      const contentType = res.headers.get('content-type');
-      const text = await res.text();
-      console.log('Status:', res.status);
-      console.log('Raw response:', text);
+      const data = await response.json();
+      console.log("Backend response:", data); // Debug
 
-      if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Server did not return valid JSON');
-      }
-
-      const data = JSON.parse(text);
-
-      if (!res.ok) {
-        console.log('Backend error message:', data.message);
+      if (!response.ok) {
         throw new Error(data.message || 'Login failed');
       }
 
       localStorage.setItem('token', data.token);
       navigate('/chat');
     } catch (err) {
-      console.error('Login error:', err.message);
-      setError(err.message);
+      console.error('Login error:', err);
+      setError(err.message || 'Login failed. Check console for details.');
     }
   };
 
   return (
-    <>
-      <div className={styles.loginContainer}>
-        <h2>Login</h2>
-        {error && <p className={styles.error}>{error}</p>}
+    <div className={styles.loginContainer}>
+      <h2>Login</h2>
+      {error && <p className={styles.error}>{error}</p>}
 
+      <form onSubmit={handleLogin}>
         <input
           type="text"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
         /><br />
 
         <input
@@ -68,15 +77,16 @@ const Login = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         /><br />
 
-        <button onClick={handleLogin}>Login</button>
-      </div>
-
-      {/* <div className={styles.linkSection}>
-        Har du inget konto? <Link to="/register">Registrera dig här</Link>
-      </div> */}
-    </>
+        <button type="submit">Login</button>
+        
+        <p className={styles.registerLink}>
+          Don't have an account? <Link to="/register">Register here</Link>
+        </p>
+      </form>
+    </div>
   );
 };
 
