@@ -6,10 +6,10 @@ const Home = () => {
   return (
     <div className="home-page">
       <header>
-        <h2>Välkommen till m-Chat-app.netlify.app</h2>
-        <p>En hemsida som byggd med React och hostad på Netlify.</p>
+        <h2>Welcome to m-Chat-app.netlify.app</h2>
+        <p>A website that built with React and hosted on Netlify.</p>
         <p className="login-prompt">
-          Please <Link to="/login" className="login-link">click here to Login</Link> to access your account
+          Please <Link to="/login" className="login-link">click here</Link> 
         </p>
       </header>
     </div>
@@ -17,3 +17,5 @@ const Home = () => {
 };
 
 export default Home;
+
+

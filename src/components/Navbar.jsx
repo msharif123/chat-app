@@ -12,7 +12,7 @@ const Navbar= ()=>{
          <Link to = "register">Register</Link>
         <Link to = "login">Login</Link>
         <Link to = "chat">Chat</Link>
-        <Link to = "logut">Logut</Link> 
+        <Link to = "logout">Logut</Link> 
 
 
         </nav>

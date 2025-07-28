@@ -46,6 +46,7 @@ const Chat = () => {
 
     setTimeout(() => {
       const responses = [
+      
         "Hur kan jag hjälpa dig?",
         "Tack för ditt meddelande!",
         "Vårt team återkommer till dig snart."

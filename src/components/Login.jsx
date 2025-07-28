@@ -17,7 +17,7 @@ const Login = () => {
         });
         const data = await response.json();
         setCsrfToken(data.csrfToken);
-        console.log("CSRF Token fetched:", data.csrfToken); // Debug
+        console.log("CSRF Token fetched:", data.csrfToken); 
       } catch (err) {
         console.error('CSRF Token error:', err);
       }
@@ -35,16 +35,16 @@ const Login = () => {
     }
 
     try {
-      console.log("Sending:", { username, password, csrfToken }); // Debug
+      console.log("Sending:", { username, password, csrfToken }); 
       const response = await fetch('https://chatify-api.up.railway.app/auth/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // Required for cookies
+        credentials: 'include',
         body: JSON.stringify({ username, password, csrfToken })
       });
 
       const data = await response.json();
-      console.log("Backend response:", data); // Debug
+      console.log("Backend response:", data);
 
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');

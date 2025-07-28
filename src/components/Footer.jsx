@@ -5,7 +5,7 @@ const Footer =()=>{
 
     return(
          <footer className="chat-footer">
-      <p>© {new Date().getFullYear()} https://chat-app.netlify.app</p>
+      <p>© {new Date().getFullYear()} https://m-chat-app.netlify.app</p>
    
     </footer>
     )

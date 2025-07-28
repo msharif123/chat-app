@@ -1,19 +1,15 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { useEffect, useInsertionEffect } from "react"
-import { useNavigate } from "react-router-dom"
+const Logout = () => {
+  const navigate = useNavigate();
 
-const Logout = ()=>{
-    const navigage = useNavigate()
-    useEffect(()=>{
-        localStorage.removeItem("token")
-        navigate ("/login")
+  useEffect(() => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  }, [navigate]);
 
-    }, [navigage])
-    return( <h3>login</h3>
+  return null;
+};
 
-
-    )
-}
-
-
-export default Logout
+export default Logout;
