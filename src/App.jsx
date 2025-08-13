@@ -1,14 +1,14 @@
 import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-import Home from "./components/Home"
-import Navbar from "./components/Navbar"
-import Register from "./components/Register"
-import Footer from "./components/Footer"
-import Login from "./components/Login"
-import Logout from "./components/Logout"
+import Home from "./components/home/Home"
+import Navbar from "./components/navbar/Navbar"
+import Register from "./components/register/Register"
+import Footer from "./components/footer/Footer"
+import Login from "./components/login/Login"
+import Logout from "./components/logout/Logout"
 import ProtectedRoute from "./components/ProtectedRoute"
-import Chat from "./components/Chat"
+import Chat from "./components/chat/Chat"
 
 
 

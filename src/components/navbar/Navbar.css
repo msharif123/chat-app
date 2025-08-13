@@ -53,13 +53,13 @@ nav a:not(:last-child)::before {
   pointer-events: none;
 }
 
-/* Active link style */
+
 nav a.active {
   color: #3498db;
   font-weight: bold;
 }
 
-/* Responsive styles */
+
 @media (max-width: 600px) {
   nav {
     padding: 1rem;

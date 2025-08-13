@@ -4,50 +4,52 @@ import MessageForm from './MessageForm';
 import styles from './Chat.module.css';
 
 const Chat = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => {
+    const saved = localStorage.getItem('chatMessages');
+    return saved ? JSON.parse(saved) : [{
+      id: "1",
+      text: "Hej hur kan vi hjälpa dig idag?",
+      userId: 'fake-user-123',
+      user: { id: 'fake-user-123', username: 'Support Bot', avatar: 'https://i.pravatar.cc/100' },
+      createdAt: new Date().toISOString()
+    }];
+  });
+
   const [isSending, setIsSending] = useState(false);
+
+  
+  useEffect(() => {
+    localStorage.setItem('chatMessages', JSON.stringify(messages));
+  }, [messages]);
 
   const fakeUser = {
     id: 'fake-user-123',
-    username: 'Mohamed',
+    username: 'Support Bot',
     avatar: 'https://i.pravatar.cc/100'
   };
 
   const user = {
     id: 'current-user-id',
-    username: 'mohamed',
+    username: 'You',
     avatar: 'https://i.pravatar.cc/100?u=current-user'
   };
-
-  useEffect(() => {
-    setMessages([{
-      id: "5",
-      text: "Hej hur kan vi hjälpa dig idag?",
-      userId: fakeUser.id,
-      user: fakeUser,
-      createdAt: new Date(Date.now())
-    }]);
-  }, []);
 
   const handleSend = async (text) => {
     const userMessage = {
       id: Date.now().toString(),
       text,
       userId: user.id,
-      user: user,
-      createdAt: new Date(),
+      user,
+      createdAt: new Date().toISOString(),
       isOwn: true
     };
-    
+
     setIsSending(true);
     setMessages(prev => [...prev, userMessage]);
 
-    // response 
-
     setTimeout(() => {
       const responses = [
-      
-        "Hur kan jag hjälpa dig?",
+        "Hej! hur kan jag hjälpa dig",
         "Tack för ditt meddelande!",
         "Vårt team återkommer till dig snart."
       ];
@@ -56,7 +58,7 @@ const Chat = () => {
         text: responses[Math.floor(Math.random() * responses.length)],
         userId: fakeUser.id,
         user: fakeUser,
-        createdAt: new Date(),
+        createdAt: new Date().toISOString(),
         isOwn: false
       };
       setMessages(prev => [...prev, botMessage]);
@@ -65,7 +67,7 @@ const Chat = () => {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this message?')) {
+    if (window.confirm('Är du säker på att du vill ta bort meddelandet?')) {
       setMessages(prev => prev.filter(msg => msg.id !== id));
     }
   };
@@ -76,15 +78,15 @@ const Chat = () => {
         <h2>Welcome to Chat support</h2>
       </header>
 
-      <MessageList 
-        messages={messages} 
-        currentUserId={user.id} 
-        onDelete={handleDelete} 
+      <MessageList
+        messages={messages}
+        currentUserId={user.id}
+        onDelete={handleDelete}
       />
 
-      <MessageForm 
-        onSend={handleSend} 
-        isSending={isSending} 
+      <MessageForm
+        onSend={handleSend}
+        isSending={isSending}
       />
     </section>
   );

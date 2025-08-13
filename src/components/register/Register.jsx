@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./Register.module.css";
 
 const Register = () => {
@@ -7,17 +7,12 @@ const Register = () => {
     username: '',
     email: '',
     password: '',
-    avatar: 'https://i.pravatar.cc/100',
-    csrfToken :  '02628e62-a2a7-4984-828b-1b024f5c0104' 
-    
+    avatar: 'https://i.pravatar.cc/100'
   });
-
 
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const [csrfToken, setCsrfTokn]=useState ("")
 
-  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -35,30 +30,66 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch('https://chatify-api.up.railway.app/auth/register', {
+      
+      const csrfRes = await fetch('https://chatify-api.up.railway.app/csrf', {
+        method: 'PATCH',
+        credentials: 'include'
+      });
+
+      const csrf = await csrfRes.json();
+      const csrfToken = csrf.csrfToken;
+
+      if (!csrfToken) {
+        throw new Error("Kunde inte hämta CSRF-token");
+      }
+
+      const registerRes = await fetch('https://chatify-api.up.railway.app/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({
           ...formData,
-          avatar: 'https://i.pravatar.cc/100'
+          csrfToken
         })
       });
 
-      const data = await response.json();
+      const regData = await registerRes.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
+      if (!registerRes.ok) {
+        throw new Error(regData.message || 'Registrering misslyckades');
       }
 
-      setError('');
-      alert(data.message || 'Registration successful');
+     
+      const loginRes = await fetch('https://chatify-api.up.railway.app/auth/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+          csrfToken
+        })
+      });
+
+      const loginData = await loginRes.json();
+
+      if (!loginRes.ok) {
+        throw new Error(loginData.message || 'Inloggning efter registrering misslyckades');
+      }
+
+     
+      localStorage.setItem('token', loginData.token);
+      alert("Registrering lyckades. Du kan logga in nu");
       navigate('/login');
+
     } catch (err) {
-      console.error('Registration error:', err);
-      setError(err.message || 'Something went wrong');
+      console.error('Registreringsfel:', err);
+      setError(err.message || 'Något gick fel');
     }
   };
 
@@ -93,13 +124,9 @@ const Register = () => {
 
         <button type="submit">Register</button>
 
-       <p className={styles.loginLink}>
+        <p className={styles.loginLink}>
           Already have an account? <Link to="/login">Login here</Link>
         </p>
-
-   
-        
-        
       </form>
     </div>
   );
