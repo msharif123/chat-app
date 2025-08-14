@@ -18,7 +18,7 @@ const MessageList = ({ messages, currentUserId, onDelete }) => {
             className={`${styles.message} ${isOwn ? styles.messageRight : styles.messageLeft}`}
           >
             <img
-              src={msg.user?.avatar || "https://i.pravatar.cc/50"}
+              src={msg.user?.avatar || "https://i.pravatar.cc/100"}
               alt={`${msg.user?.username || 'User'}'s avatar`}
               className={styles.avatar}
             />

@@ -25,7 +25,7 @@ const Register = () => {
     e.preventDefault();
 
     if (!formData.username || !formData.email || !formData.password) {
-      setError("All fields are required");
+      setError("Feltet är obligatoriska");
       return;
     }
 
@@ -106,6 +106,8 @@ const Register = () => {
           onChange={handleChange}
         /><br />
 
+    
+          
         <input
           name="email"
           type="email"
@@ -114,6 +116,7 @@ const Register = () => {
           onChange={handleChange}
         /><br />
 
+      
         <input
           name="password"
           type="password"
