@@ -17,7 +17,7 @@ const Login = () => {
           method: 'PATCH',
           credentials: 'include'
         });
-        const data= await res.json(); 
+        const data = await res.json();
         setCsrfToken(data.csrfToken);
       } catch (err) {
         console.error('CSRF fetch error:', err);
@@ -43,12 +43,13 @@ const Login = () => {
     try {
       const res = await fetch('https://chatify-api.up.railway.app/auth/token', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json',
+        headers: {
+          'Content-Type': 'application/json',
           "Accept": "application/json"
-         
+
         },
         credentials: 'include',
-        body: JSON.stringify({ username, password, csrfToken})
+        body: JSON.stringify({ username, password, csrfToken })
       });
 
       const data = await res.json()
@@ -56,7 +57,9 @@ const Login = () => {
       if (!res.ok) throw new Error(data.message || `Login failed (${res.status})`);
 
       if (data.token) {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', data.token)
+        window.dispatchEvent(new Event("storage"));
+
       }
 
       navigate('/chat');

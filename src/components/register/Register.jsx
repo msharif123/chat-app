@@ -25,12 +25,12 @@ const Register = () => {
     e.preventDefault();
 
     if (!formData.username || !formData.email || !formData.password) {
-      setError("Feltet är obligatoriska");
+      setError("All fields are required");
       return;
     }
 
     try {
-      
+
       const csrfRes = await fetch('https://chatify-api.up.railway.app/csrf', {
         method: 'PATCH',
         credentials: 'include'
@@ -62,7 +62,7 @@ const Register = () => {
         throw new Error(regData.message || 'Registrering misslyckades');
       }
 
-     
+
       const loginRes = await fetch('https://chatify-api.up.railway.app/auth/token', {
         method: 'POST',
         headers: {
@@ -82,8 +82,9 @@ const Register = () => {
         throw new Error(loginData.message || 'Inloggning efter registrering misslyckades');
       }
 
-     
-      localStorage.setItem('token', loginData.token);
+
+      localStorage.setItem('token', loginData.token)
+      window.dispatchEvent(new Event("storage"))
       alert("Registrering lyckades. Du kan logga in nu");
       navigate('/login');
 
@@ -99,6 +100,19 @@ const Register = () => {
       {error && <p className={styles.error}>{error}</p>}
 
       <form onSubmit={handleRegister}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
+          <img
+            src={formData.avatar}
+            alt="Avatar"
+            style={{
+              borderRadius: '50%',
+              width: '100px',
+              height: '100px'
+            }}
+          />
+        </div>
+
+
         <input
           name="username"
           placeholder="Username"
@@ -106,8 +120,8 @@ const Register = () => {
           onChange={handleChange}
         /><br />
 
-    
-          
+
+
         <input
           name="email"
           type="email"
@@ -116,7 +130,7 @@ const Register = () => {
           onChange={handleChange}
         /><br />
 
-      
+
         <input
           name="password"
           type="password"
