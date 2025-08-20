@@ -8,13 +8,28 @@ const MessageList = ({ messages, currentUserId, onDelete }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  setTimeout(() => {
+    const botReply = {
+      id: Date.now().toString() + '-bot',
+      text: `Hej! Du skrev: "${text}". Tack för ditt meddelande! 🤖`,
+      userId: 'bot',
+      user: { id: 'bot', username: 'Supportbot', avatar: '' },
+      createdAt: new Date().toISOString(),
+      isOwn: false,
+    };
+
+    setMessages(prev => [...prev, botReply]);
+    scrollToBottom();
+  }, 1000); // 1 sekund delay
+
+
   return (
     <ul className={styles.messagesList}>
       {messages.map(msg => {
         const isOwn = msg.userId === currentUserId;
         return (
-          <li 
-            key={msg.id} 
+          <li
+            key={msg.id}
             className={`${styles.message} ${isOwn ? styles.messageRight : styles.messageLeft}`}
           >
             <img
@@ -32,7 +47,7 @@ const MessageList = ({ messages, currentUserId, onDelete }) => {
                   {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </time>
                 {isOwn && (
-                  <button 
+                  <button
                     className={styles.messageDelete}
                     onClick={() => onDelete(msg.id)}
                     aria-label="Delete message"
